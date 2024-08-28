@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/VALHEMSING/ApiRest-NodeJS/issues"
   },
-  "homepage": "https://github.com/VALHEMSING/ApiRest-NodeJS#readme"
+  "homepage": "https://github.com/VALHEMSING/ApiRest-NodeJS#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
 }
