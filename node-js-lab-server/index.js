@@ -1,19 +1,37 @@
- 
+
+const usuarios = require('./controllers/usuarios');
+const cursos = require('./controllers/cursos');
 
 
 
-const { createServer } = require('node:http');
 
-const hostname = '127.0.0.1';
-const port = 3000;
 
-const server = createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World');
+
+const express = require('express');
+const mongoose = require('mongoose');
+
+//Conexion a la DB mongodb
+mongoose.connect('mongodb://localhost:27017/usercoursesdb', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log('Conectando a MongoDB...'))
+.catch(err => console.log('No se pudo conectar con MongoDB...', err));
+
+
+//Middleware
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+
+app.use('/api/usuarios', usuarios);
+app.use('/api/cursos', cursos);
+
+
+
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Servidor escuchando en http://localhost:${port}`);
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-
-});

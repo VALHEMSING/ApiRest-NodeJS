@@ -1,35 +1,31 @@
 {
-  "name": "api-rest-nodejs",
+  "name": "node-js-lab-server-mongo",
   "version": "1.0.0",
-  "description": "Servidor web con nodejs",
+  "description": "Servidor web con NodeJS",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/VALHEMSING/ApiRest-NodeJS.git"
+    "url": "\"https://github.com/VALHEMSING/ApiRest-NodeJS.git\""
   },
   "keywords": [
-    "node",
+    "NodeJS",
     "Express",
     "MongoDB",
     "API",
     "REST",
     "Backend"
   ],
-  "author": "David Quintero",
+  "author": "Julian David Rivera Quintero",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/VALHEMSING/ApiRest-NodeJS/issues"
-  },
-  "homepage": "https://github.com/VALHEMSING/ApiRest-NodeJS#readme",
-  "devDependencies": {
-    "nodemon": "^3.1.4"
-  },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "express": "^4.19.2",
-    "mongoose": "^8.5.4"
+    "mongoose": "^8.5.4",
+    "nodemon": "^3.1.4"
   }
 }
