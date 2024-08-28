@@ -36,10 +36,11 @@ async function crearUsuario(body) {
     });
     return await usuario.save()
 }
-
+/*
 ruta.get('/', (req,res)=>{
     res.json('Respuesta a peticion GET se USUARIOS funcionando correctamente...')
 })
+    */
 
 //Endpoint de tipo post para el recurso USUARIOS
 ruta.post('/', (req, res) => {
@@ -132,7 +133,23 @@ ruta.delete('/:email', (req, res)=>{
     });
 });
 
+//Funcion asincrona para listar todos los usuarios activos
+async function listarUsuariosActivos() {
+    let usuarios = await Usuario.find({"estado": true});
+    return usuarios;
+}
 
-
+//Endpoint de tipo GET para el recurso usuarios. Lista todos los usuarios
+ruta.get('/', (req, res)=>{
+    let resultado = listarUsuariosActivos();
+    resultado.then(usuarios =>{
+        res.json(usuarios)
+    }).catch(err=>{
+        res.status(400).json({
+            message:'Error al listar los usuarios activos',
+            error:err.message
+        })
+    })
+})
 
 module.exports = ruta;
