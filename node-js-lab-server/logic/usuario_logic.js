@@ -1,34 +1,22 @@
 const Usuario = require('../models/usuario_model');
-const Joi = require ('@hapi/joi');
+const usuarioValidationSchema = require('../validations/usuarioValidations');
 
 
 
 
-//Validaciones para el objeto usuario
-const schema = Joi.object({
-    nombre: Joi.string()
-    .min(3)
-    .max(30)
-    .required()
-    .pattern(/^[A-Za-záéíóú ]{3,30}$/),
 
-
-    password: Joi.string()
-    .pattern(/^[A-Za-záéíóú ]{3,30}$/),
-
-
-    email: Joi.string()
-    .email({ 
-        minDomainSegments: 2,
-        tlds:{allow:['com', 'net', 'edu', 'co']}})
-    });
-
-    //Funcion asincrona para crear un objeto de tipo usuario
+//Funcion asincrona para crear un objeto de tipo usuario
 async function crearUsuario(body) {
+
+    const { error } = usuarioValidationSchema.validate(body);
+
+    if (error) {
+        throw new Error(error.details[0].message);
+    }
     let usuario = new Usuario({
-        email      : body.email,
-        nombre     : body.nombre,
-        password   : body.password
+        email: body.email,
+        nombre: body.nombre,
+        password: body.password
 
     });
     return await usuario.save()
@@ -37,39 +25,46 @@ async function crearUsuario(body) {
 
 //Funcion para actuarlizar al usuario
 async function actualizarUsuario(email, body) {
+
+
+    const { error } = usuarioValidationSchema.validate(email, body);
+    if (error) {
+        throw new Error(error.details[0].message);
+    }
     let usuario = await Usuario.findOneAndUpdate
-    (
-        {"email":email},{
-            $set:{
-                nombre:body.nombre,
-                password: body.password
-            }
-        
-        }, {new: true}
-    );
+        (
+            { "email": email },
+            {
+                $set: {
+                    nombre: body.nombre,
+                    password: body.password
+                }
+
+            }, { new: true }
+        );
     return usuario;
 }
 
 
 async function desactivarUsuario(email) {
-    let usuario = await Usuario.findOneAndUpdate({"email":email},{
-        $set:{
+    let usuario = await Usuario.findOneAndUpdate({ "email": email }, {
+        $set: {
             estado: false
         }
     },
-    {new:true}
-);
-return usuario;    
+        { new: true }
+    );
+    return usuario;
 }
 
 //Funcion asincrona para listar todos los usuarios activos
 async function listarUsuariosActivos() {
-    let usuarios = await Usuario.find({"estado": true});
+    let usuarios = await Usuario.find({ "estado": true });
     return usuarios;
 }
 
-module.exports ={
-    schema,
+module.exports = {
+
     crearUsuario,
     actualizarUsuario,
     desactivarUsuario,
