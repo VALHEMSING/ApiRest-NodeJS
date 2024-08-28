@@ -16,16 +16,35 @@ ruta.get('/', (req, res) =>{
 
 //Endpoint de tipo POST para el recurso CURSOS
 ruta.post('/', (req, res) => {
-    let resultado = logic.crearCurso(req.body);
-    resultado.then(curso => {
-        res.json({
-            curso
+
+
+    let body = req.body;
+
+    const { error, value } = logic.schema.validate({
+        titulo: body.titulo,
+        descripcion: body.descripcion,
+        alumnos: body.alumnos,
+        calificacion: body.calificacion
+    });
+
+    if (!error) {
+        let resultado = logic.crearCurso(req.body);
+        resultado.then(curso => {
+            res.json({
+                curso
+            })
+        }).catch(err => {
+            res.status(400).json({
+                err
+            })
         })
-    }).catch(err => {
+    } else {
         res.status(400).json({
-            err
+            error
         })
-    })
+    }
+
+
 });
 
 
@@ -33,12 +52,26 @@ ruta.post('/', (req, res) => {
 
 //Endpoint de tipos PUT para actualizar los cursos
 ruta.put('/:id', (req, res) => {
-    let resultado = logic.actualizarCurso(req.params.id, req.body);
-    resultado.then(curso => {
-        res.json(curso)
-    }).catch(err => {
-        res.status(400).json(err)
+
+    const { error, value } = logic.schema.validate({
+        titulo: req.body.titulo,
+        descripcion: req.body.descripcion,
+        alumnos: req.body.alumnos,
+        calificacion: req.body.calificacion
     })
+    if (!error) {
+        let resultado = logic.actualizarCurso(req.params.id, req.body);
+        resultado.then(curso => {
+            res.json(curso)
+        }).catch(err => {
+            res.status(400).json(err)
+        });
+    }
+    else {
+        res.status(400).json({
+            error
+        })
+    }
 });
 
 
