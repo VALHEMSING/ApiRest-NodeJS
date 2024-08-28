@@ -26,5 +26,8 @@
   "homepage": "https://github.com/VALHEMSING/ApiRest-NodeJS#readme",
   "devDependencies": {
     "nodemon": "^3.1.4"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
   }
 }
