@@ -101,4 +101,38 @@ ruta.put('/:email', (req, res) =>{
         })
     }
 });
+
+
+
+
+async function desactivarUsuario(email) {
+        let usuario = await Usuario.findOneAndUpdate({"email":email},{
+            $set:{
+                estado: false
+            }
+        },
+        {new:true}
+    );
+    return usuario;    
+}
+
+//Endpoint de tipo DELETE para el recurso USUARIOS
+ruta.delete('/:email', (req, res)=>{
+    let resultado = desactivarUsuario(req.params.email);
+    resultado.then(valor =>{
+        res.json({
+            message:'Exito al desactivar al usuario',
+            usuario: valor
+        })
+    }).catch(err =>{
+        res.status(400).json({
+            message:'Error al desactivar al usuario',
+            error:err.message
+        })
+    });
+});
+
+
+
+
 module.exports = ruta;
