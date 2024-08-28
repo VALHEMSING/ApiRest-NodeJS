@@ -5,29 +5,29 @@
 const mongoose = require('mongoose');
 
 const cursoSchema = new mongoose.Schema({
-    titulo:{
-        type:String,
+    titulo: {
+        type: String,
         required: true
     },
-    descripcion:{
-        type:String,
+    descripcion: {
+        type: String,
         required: false
     },
-    estado:{
-        type:String,
+    estado: {
+        type: String,
         default: true
     },
-    imagen:{
-        type:String,
+    imagen: {
+        type: String,
         required: false
     },
-    alumnos:{
-        type:Number,
-        default:0
+    alumnos: {
+        type: Number,
+        default: 0
     },
-    calificacion:{
-        type:Number,
-        default:0
+    calificacion: {
+        type: Number,
+        default: 0
     }
 });
 

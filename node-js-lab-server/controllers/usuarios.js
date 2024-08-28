@@ -19,20 +19,20 @@ ruta.get('/', (req,res)=>{
 //Endpoint de tipo post para el recurso USUARIOS
 ruta.post('/', (req, res) => {
     let body = req.body;
-    const {error, value} = logic.schema.validate({nombre: body.nombre, email: body.email});
-    if (!error){
+    const { error, value } = logic.schema.validate({ nombre: body.nombre, email: body.email });
+    if (!error) {
         let resultado = logic.crearUsuario(body);
 
-        resultado .then(user =>{
+        resultado.then(user => {
             res.json({
                 valor: user
             })
-        }).catch(err =>{
+        }).catch(err => {
             res.status(400).json({
                 err
             })
         });
-    }else{
+    } else {
         res.status(400).json({
             error
         })
@@ -40,22 +40,22 @@ ruta.post('/', (req, res) => {
 });
 
 //Endpoint de tipo put para actualizar los datos del usuario
-ruta.put('/:email', (req, res) =>{
-    const {error, value} =logic.schema.validate({nombre: req.body.nombre})
-    if(!error){
+ruta.put('/:email', (req, res) => {
+    const { error, value } = logic.schema.validate({ nombre: req.body.nombre })
+    if (!error) {
         let resultado = logic.actualizarUsuario(req.params.email, req.body);
-        resultado.then(valor =>{
+        resultado.then(valor => {
             res.json({
-                message:'Usuario actualizado exitosamente',
-                data:valor
+                message: 'Usuario actualizado exitosamente',
+                data: valor
             });
-        }).catch(err =>{
+        }).catch(err => {
             res.status(400).json({
-                message:'Error al actualizar el usuario',
-                error:err.message
+                message: 'Error al actualizar el usuario',
+                error: err.message
             });
         });
-    }else{
+    } else {
         res.status(400).json({
             error
         })
@@ -67,31 +67,31 @@ ruta.put('/:email', (req, res) =>{
 
 
 //Endpoint de tipo DELETE para el recurso USUARIOS
-ruta.delete('/:email', (req, res)=>{
+ruta.delete('/:email', (req, res) => {
     let resultado = logic.desactivarUsuario(req.params.email);
-    resultado.then(valor =>{
+    resultado.then(valor => {
         res.json({
-            message:'Exito al desactivar al usuario',
+            message: 'Exito al desactivar al usuario',
             usuario: valor
         })
-    }).catch(err =>{
+    }).catch(err => {
         res.status(400).json({
-            message:'Error al desactivar al usuario',
-            error:err.message
+            message: 'Error al desactivar al usuario',
+            error: err.message
         })
     });
 });
 
 
 //Endpoint de tipo GET para el recurso usuarios. Lista todos los usuarios
-ruta.get('/', (req, res)=>{
+ruta.get('/', (req, res) => {
     let resultado = logic.listarUsuariosActivos();
-    resultado.then(usuarios =>{
+    resultado.then(usuarios => {
         res.json(usuarios)
-    }).catch(err=>{
+    }).catch(err => {
         res.status(400).json({
-            message:'Error al listar los usuarios activos',
-            error:err.message
+            message: 'Error al listar los usuarios activos',
+            error: err.message
         })
     })
 })

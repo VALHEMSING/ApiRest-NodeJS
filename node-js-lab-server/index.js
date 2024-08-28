@@ -12,17 +12,16 @@ const mongoose = require('mongoose');
 
 //Conexion a la DB mongodb
 mongoose.connect('mongodb://localhost:27017/usercoursesdb', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
+
 })
-.then(() => console.log('Conectando a MongoDB...'))
-.catch(err => console.log('No se pudo conectar con MongoDB...', err));
+  .then(() => console.log('Conectando a MongoDB...'))
+  .catch(err => console.log('No se pudo conectar con MongoDB...', err));
 
 
 //Middleware
 const app = express();
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/usuarios', usuarios);
 app.use('/api/cursos', cursos);

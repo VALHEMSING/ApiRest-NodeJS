@@ -15,13 +15,13 @@ ruta.get('/', (req, res) =>{
 
 
 //Endpoint de tipo POST para el recurso CURSOS
-ruta.post('/', (req, res)=>{
+ruta.post('/', (req, res) => {
     let resultado = logic.crearCurso(req.body);
-    resultado.then(curso=>{
+    resultado.then(curso => {
         res.json({
             curso
         })
-    }).catch(err =>{
+    }).catch(err => {
         res.status(400).json({
             err
         })
@@ -32,11 +32,11 @@ ruta.post('/', (req, res)=>{
 
 
 //Endpoint de tipos PUT para actualizar los cursos
-ruta.put('/:id', (req, res)=>{
+ruta.put('/:id', (req, res) => {
     let resultado = logic.actualizarCurso(req.params.id, req.body);
-    resultado.then(curso =>{
+    resultado.then(curso => {
         res.json(curso)
-    }).catch(err=>{
+    }).catch(err => {
         res.status(400).json(err)
     })
 });
@@ -45,11 +45,11 @@ ruta.put('/:id', (req, res)=>{
 
 
 //Endpoindt de tipo DELETE para desacticar cursos
-ruta.delete('/:id', (req, res)=>{
+ruta.delete('/:id', (req, res) => {
     let resultado = logic.desactivarCurso(req.params.id);
-    resultado.then(curso =>{
+    resultado.then(curso => {
         res.json(curso);
-    }).catch(err =>{
+    }).catch(err => {
         res.status(400).json(ert);
     })
 })
@@ -58,11 +58,11 @@ ruta.delete('/:id', (req, res)=>{
 
 
 //Endpoint tipo GET paral listar los cursos activos
-ruta.get('/', (req, res)=>{
+ruta.get('/', (req, res) => {
     let resultado = logic.listarCursosActivos();
-    resultado.then(cursos =>{
+    resultado.then(cursos => {
         res.json(cursos);
-    }).catch(err=>{
+    }).catch(err => {
         res.status(400).json(err);
     })
 })
