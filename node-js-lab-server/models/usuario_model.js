@@ -19,6 +19,17 @@ const usuarioSchema = new mongoose.Schema({
     },
     password:{
         type:String,
-        
+        required: true
+    },
+    estado:{
+        type:String,
+        default: true
+    },
+    imagen:{
+        type:String,
+        required: false
     }
-})
+
+});
+
+module.exports = mongoose.model('Usuario', usuarioSchema);
