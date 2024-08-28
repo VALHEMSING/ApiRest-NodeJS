@@ -1,6 +1,6 @@
-
 const Usuario = require('../models/usuario_model');
-const Joi = require('@hapi/joi');
+const Joi = require ('@hapi/joi');
+
 
 
 
@@ -23,7 +23,7 @@ const schema = Joi.object({
         tlds:{allow:['com', 'net', 'edu', 'co']}})
     });
 
-//Funcion asincrona para crear un objeto de tipo usuario
+    //Funcion asincrona para crear un objeto de tipo usuario
 async function crearUsuario(body) {
     let usuario = new Usuario({
         email      : body.email,
@@ -48,7 +48,6 @@ async function actualizarUsuario(email, body) {
         }, {new: true}
     );
     return usuario;
-
 }
 
 
@@ -58,8 +57,9 @@ async function desactivarUsuario(email) {
             estado: false
         }
     },
-    {new:true});
-    return usuario;    
+    {new:true}
+);
+return usuario;    
 }
 
 //Funcion asincrona para listar todos los usuarios activos
@@ -67,6 +67,7 @@ async function listarUsuariosActivos() {
     let usuarios = await Usuario.find({"estado": true});
     return usuarios;
 }
+
 module.exports ={
     schema,
     crearUsuario,
