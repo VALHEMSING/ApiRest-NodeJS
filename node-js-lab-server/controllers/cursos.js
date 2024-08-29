@@ -96,7 +96,7 @@ ruta.delete('/:id', (req, res) => {
     resultado.then(curso => {
         res.json(curso);
     }).catch(err => {
-        res.status(400).json(ert);
+        res.status(400).json(err);
     })
 })
 

@@ -27,7 +27,7 @@ async function crearUsuario(body) {
 async function actualizarUsuario(email, body) {
 
 
-    const { error } = usuarioValidationSchema.validate(email, body);
+    const { error } = usuarioValidationSchema.validate( body);
     if (error) {
         throw new Error(error.details[0].message);
     }

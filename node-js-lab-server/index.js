@@ -11,8 +11,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 //Conexion a la DB mongodb
-mongoose.connect('mongodb://localhost:27017/usercoursesdb', {
-
+mongoose.connect('mongodb://127.0.0.1:27017/usercoursesdb', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 })
   .then(() => console.log('Conectando a MongoDB...'))
   .catch(err => console.log('No se pudo conectar con MongoDB...', err));
