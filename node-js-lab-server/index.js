@@ -5,15 +5,15 @@ const cursos = require('./controllers/cursos');
 
 
 
-
+require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
 
+const MONGOCONECCION = process.env.MONGO_DB_CONNECTION_STRING;
 //Conexion a la DB mongodb
-mongoose.connect('mongodb://127.0.0.1:27017/usercoursesdb', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+mongoose.connect(MONGOCONECCION, {
+
 })
   .then(() => console.log('Conectando a MongoDB...'))
   .catch(err => console.log('No se pudo conectar con MongoDB...', err));
