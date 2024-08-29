@@ -17,7 +17,14 @@ ruta.get('/', (req,res)=>{
     */
 
 //Endpoint de tipo post para el recurso USUARIOS
-ruta.post('/', (req, res) => {
+ruta.post('/', async (req, res) => {
+    try {
+        const resultado = await logic.crearUsuario(req.body);
+        res.status(201).json({ usuario: resultado });
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+    /*
     let body = req.body;
     const { error, value } = logic.schema.validate({ nombre: body.nombre, email: body.email });
     if (!error) {
@@ -36,11 +43,20 @@ ruta.post('/', (req, res) => {
         res.status(400).json({
             error
         })
-    }
+    }*/
 });
 
 //Endpoint de tipo put para actualizar los datos del usuario
-ruta.put('/:email', (req, res) => {
+ruta.put('/:email', async (req, res) => {
+
+
+    try {
+        const resultado = await logic.actualizarUsuario(req.params.email, req.body);
+        res.json(resultado);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+    /*
     const { error, value } = logic.schema.validate({ nombre: req.body.nombre })
     if (!error) {
         let resultado = logic.actualizarUsuario(req.params.email, req.body);
@@ -59,7 +75,7 @@ ruta.put('/:email', (req, res) => {
         res.status(400).json({
             error
         })
-    }
+    }*/
 });
 
 

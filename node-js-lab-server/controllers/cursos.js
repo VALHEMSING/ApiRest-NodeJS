@@ -15,35 +15,40 @@ ruta.get('/', (req, res) =>{
 
 
 //Endpoint de tipo POST para el recurso CURSOS
-ruta.post('/', (req, res) => {
-
-
-    let body = req.body;
-
-    const { error, value } = logic.schema.validate({
-        titulo: body.titulo,
-        descripcion: body.descripcion,
-        alumnos: body.alumnos,
-        calificacion: body.calificacion
-    });
-
-    if (!error) {
-        let resultado = logic.crearCurso(req.body);
-        resultado.then(curso => {
-            res.json({
-                curso
-            })
-        }).catch(err => {
-            res.status(400).json({
-                err
-            })
-        })
-    } else {
-        res.status(400).json({
-            error
-        })
+ruta.post('/', async (req, res) => {
+    try {
+        const resultado = await logic.crearCurso(req.body);
+        res.status(201).json({ curso: resultado });
+    } catch (err) {
+        res.status(400).json({ error: err.message });
     }
-
+    /*
+        let body = req.body;
+    
+        const { error, value } = logic.schema.validate({
+            titulo: body.titulo,
+            descripcion: body.descripcion,
+            alumnos: body.alumnos,
+            calificacion: body.calificacion
+        });
+    
+        if (!error) {
+            let resultado = logic.crearCurso(req.body);
+            resultado.then(curso => {
+                res.json({
+                    curso
+                })
+            }).catch(err => {
+                res.status(400).json({
+                    err
+                })
+            })
+        } else {
+            res.status(400).json({
+                error
+            })
+        }
+    */
 
 });
 
@@ -51,8 +56,15 @@ ruta.post('/', (req, res) => {
 
 
 //Endpoint de tipos PUT para actualizar los cursos
-ruta.put('/:id', (req, res) => {
+ruta.put('/:id', async (req, res) => {
 
+    try {
+        const resultado = await logic.actualizarCurso(req.params.id, req.body);
+        res.json(resultado);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+    /*
     const { error, value } = logic.schema.validate({
         titulo: req.body.titulo,
         descripcion: req.body.descripcion,
@@ -72,6 +84,7 @@ ruta.put('/:id', (req, res) => {
             error
         })
     }
+        */
 });
 
 
@@ -83,7 +96,7 @@ ruta.delete('/:id', (req, res) => {
     resultado.then(curso => {
         res.json(curso);
     }).catch(err => {
-        res.status(400).json(ert);
+        res.status(400).json(err);
     })
 })
 
