@@ -11,9 +11,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 //Conexion a la DB mongodb
-mongoose.connect('mongodb://127.0.0.1:27017/usercoursesdb', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+mongoose.connect('mongodb+srv://cluster0.vanve.mongodb.net', {
+
 })
   .then(() => console.log('Conectando a MongoDB...'))
   .catch(err => console.log('No se pudo conectar con MongoDB...', err));
