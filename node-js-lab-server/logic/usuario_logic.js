@@ -1,4 +1,4 @@
-const Usuario = require('../models/usuario_model');
+const Usuario = require('../api/models/usuario_model');
 const usuarioValidationSchema = require('../validations/usuarioValidations');
 
 

@@ -28,7 +28,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/usuarios', usuarios);
+app.use('./controllers/usuarios');
 app.use('/api/cursos', cursos);
+app.use('./controllers/cursos');
 
 
 
