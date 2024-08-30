@@ -1,6 +1,6 @@
 
 const express = require('express');
-const {  listarCursosActivos, crearCurso, actualizarCurso, desactivarCurso } = require('../controllers/cursos');
+const {  listarCursosActivos, crearCurso, actualizarCurso, desactivarCurso } = require('../controllers/cursosController');
 
 
 const router = express.Router();

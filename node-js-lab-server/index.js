@@ -1,14 +1,16 @@
+const express = require('express');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
-const usuarios = require('./controllers/usuarios');
-const cursos = require('./controllers/cursos');
+// Importar rutas
+const usuariosRouter = require('./api/routes/usuarioRouter'); // Verifica que esta ruta sea correcta
+const cursosRouter = require('./api/routes/cursosRouter'); // Verifica que esta ruta sea correcta
 
-
-
+// Resto del código...
 
 require('dotenv').config();
 
-const express = require('express');
-const mongoose = require('mongoose');
+
 
 const MONGOCONECCION = process.env.MONGO_DB_CONNECTION_STRING;
 //Conexion a la DB mongodb
@@ -27,10 +29,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/usuarios', usuarios);
-app.use('./controllers/usuarios');
-app.use('/api/cursos', cursos);
-app.use('./controllers/cursos');
+app.use('/api/usuarios',usuariosRouter );
+app.use('/api/cursos', cursosRouter);
+
 
 
 

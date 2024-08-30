@@ -1,20 +1,20 @@
-
 const express = require('express');
 const { listarUsuariosActivos, crearUsuario, actualizarUsuario, desactivarUsuario } = require('../controllers/usuariosController');
 
-
 const router = express.Router();
 
-// Obtener todos los usuarios
-router.get('/', listarUsuariosActivos);
 
 // Crear un nuevo usuario
-router.post('/', crearUsuario);
+router.post('/', crearUsuario); // Asegúrate de que crearUsuario esté definido
 
-// Actualizar un usuario por ID
-router.put('/:email', actualizarUsuario);
+// Obtener todos los usuarios
+router.get('/', listarUsuariosActivos); // Asegúrate de que listarUsuariosActivos esté definido
 
-// Eliminar un usuario por ID
-router.delete('/:email', desactivarUsuario);
+
+// Actualizar un usuario por email
+router.put('/:email', actualizarUsuario); // Asegúrate de que actualizarUsuario esté definido
+
+// Eliminar un usuario por email
+router.delete('/:email', desactivarUsuario); // Asegúrate de que desactivarUsuario esté definido
 
 module.exports = router;
