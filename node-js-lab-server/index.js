@@ -5,13 +5,14 @@ const cursos = require('./controllers/cursos');
 
 
 
-
+require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
 
+const MONGOCONECCION = process.env.MONGO_DB_CONNECTION_STRING;
 //Conexion a la DB mongodb
-mongoose.connect('mongodb+srv://cluster0.vanve.mongodb.net', {
+mongoose.connect(MONGOCONECCION, {
 
 })
   .then(() => console.log('Conectando a MongoDB...'))
