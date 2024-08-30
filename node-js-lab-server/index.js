@@ -12,11 +12,14 @@ const mongoose = require('mongoose');
 
 const MONGOCONECCION = process.env.MONGO_DB_CONNECTION_STRING;
 //Conexion a la DB mongodb
-mongoose.connect(MONGOCONECCION, {
-
-})
-  .then(() => console.log('Conectando a MongoDB...'))
-  .catch(err => console.log('No se pudo conectar con MongoDB...', err));
+(async () => {
+  try {
+    await mongoose.connect(MONGOCONECCION);
+    console.log('Conectando a MongoDB...');
+  } catch (err) {
+    console.log('No se pudo conectar con MongoDB...', err);
+  }
+})();
 
 
 //Middleware
