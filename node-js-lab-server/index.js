@@ -1,27 +1,30 @@
-// index.js
-const express = require('express');
-const mongoose = require('mongoose');
-require('dotenv').config();
 
-const usuarioRouter = require('./routes/usuarioRouter') 
-//const usuariosRouter = require('./api/routes/usuarioRouter');
+//Traemos el archivo dotenv
+//require('dotenv').config();
+
+const express = require('express');
+//const mongoose = require('mongoose');
+
+
+const usuarioRouter = require('./routes/usuarioRouter');
 const cursosRouter = require('./routes/cursosRouter');
 
-(async () => {
-  try {
-    const MONGOCONECCION = process.env.MONGOCONECCION;
-    await mongoose.connect(MONGOCONECCION, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log('Conectado a MongoDB...');
-  } catch (err) {
-    console.error('No se pudo conectar a MongoDB', err.message);
-  } finally {
-    // Cerrar la conexión si es necesario
-    await mongoose.disconnect();
-  }
-})();
+require('dotenv').config();
+const mongoose = require('mongoose');
+
+//Almaceno la conexin de la DB
+const CONEXION = process.env.MONGO_CONNECTION_STRING
+
+console.log(`Escuchando la DB ${CONEXION}`)
+
+mongoose.connect(CONEXION, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('Conectado a MongoDB'))
+.catch(err => console.error('No se pudo conectar a MongoDB', err));
+;
+
 
 const app = express();
 app.use(express.json());
