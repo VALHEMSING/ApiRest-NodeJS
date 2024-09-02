@@ -7,16 +7,21 @@ const usuarioRouter = require('./routes/usuarioRouter')
 //const usuariosRouter = require('./api/routes/usuarioRouter');
 const cursosRouter = require('./routes/cursosRouter');
 
-const MONGOCONECCION = process.env.MONGO_DB_CONNECTION_STRING;
-
 (async () => {
   try {
-    await mongoose.connect(MONGOCONECCION);
+    const MONGOCONECCION = process.env.MONGOCONECCION;
+    await mongoose.connect(MONGOCONECCION, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log('Conectado a MongoDB...');
   } catch (err) {
-    console.error('No se pudo conectar a MongoDB', err);
+    console.error('No se pudo conectar a MongoDB', err.message);
+  } finally {
+    // Cerrar la conexión si es necesario
+    await mongoose.disconnect();
   }
-});
+})();
 
 const app = express();
 app.use(express.json());
