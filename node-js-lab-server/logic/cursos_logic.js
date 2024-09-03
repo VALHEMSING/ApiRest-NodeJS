@@ -1,5 +1,4 @@
 const Curso = require('../models/cursos_models');
-
 const cursoValidationSchema = require('../validations/cursoValidations');
 
 // Función asíncrona para crear cursos
@@ -13,9 +12,12 @@ async function crearCurso(body) {
         const curso = new Curso({
             titulo: body.titulo,
             descripcion: body.descripcion,
+            imagen: body.imagen, // Asegurarse de manejar la imagen si se proporciona
             alumnos: body.alumnos,
             calificacion: body.calificacion,
-            usuarios: body.usuarios // Asegúrate de incluir el campo usuarios
+            usuarios: body.usuarios,
+            activo: body.activo !== undefined ? body.activo : true, // Inicializar el curso como activo o usar el valor proporcionado
+            fechaCreacion: new Date() // Establecer la fecha de creación actual
         });
 
         return await curso.save();
@@ -36,8 +38,11 @@ async function actualizarCurso(id, body) {
             $set: {
                 titulo: body.titulo,
                 descripcion: body.descripcion,
+                imagen: body.imagen, // Permitir actualizar la imagen
                 alumnos: body.alumnos,
-                calificacion: body.calificacion
+                calificacion: body.calificacion,
+                activo: body.activo !== undefined ? body.activo : true, // Actualizar estado activo si se proporciona
+                fechaActualizacion: new Date() // Establecer la fecha de actualización actual
             }
         }, { new: true, runValidators: true });
 
@@ -55,7 +60,8 @@ async function desactivarCurso(id) {
     try {
         const curso = await Curso.findByIdAndUpdate(id, {
             $set: {
-                estado: false
+                activo: false,
+                fechaActualizacion: new Date() // Actualizar la fecha de modificación al desactivar
             }
         }, { new: true });
 
@@ -71,7 +77,7 @@ async function desactivarCurso(id) {
 // Función asíncrona para listar los cursos activos
 async function listarCursosActivos() {
     try {
-        const cursos = await Curso.find({ estado: true });
+        const cursos = await Curso.find({ activo: true });
         return cursos;
     } catch (error) {
         throw new Error(`Error al listar los cursos activos: ${error.message}`);
@@ -103,19 +109,18 @@ async function obtenerUsuariosPorCurso(Id) {
         throw new Error(`Error al obtener los usuarios del curso: ${error.message}`);
     }
 }
+
 // Función asíncrona para agregar usuarios a un curso
 async function agregarUsuariosACurso(Id, usuarios) {
     try {
-        // Verificar que el array de usuarios no esté vacío
         if (!usuarios || usuarios.length === 0) {
             throw new Error('Se deben proporcionar al menos un ID de usuario.');
         }
 
-        // Actualizar el curso para agregar los usuarios
         const curso = await Curso.findByIdAndUpdate(
             Id,
             { $addToSet: { usuarios: { $each: usuarios } } }, // Agrega los usuarios al array, evitando duplicados
-            { new: true, runValidators: true } // Devuelve el curso actualizado y ejecuta validaciones
+            { new: true, runValidators: true }
         );
 
         if (!curso) {
