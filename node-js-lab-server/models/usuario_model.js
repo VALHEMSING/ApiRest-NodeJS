@@ -1,10 +1,11 @@
+// models/usuario_model.js
 const mongoose = require('mongoose');
 
 const usuarioSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true, // Asegura que el email sea único
+        unique: true,
     },
     nombre: {
         type: String,
@@ -15,14 +16,13 @@ const usuarioSchema = new mongoose.Schema({
         required: true,
     },
     estado: {
-        type: Boolean, // Cambiado a Boolean para representar estado activo/inactivo
+        type: Boolean,
         default: true,
     },
-    imagen: {
-        type: String,
-        // No es necesario el campo required: false, ya que es opcional por defecto
-    }
+    cursos: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Curso', // Referencia al modelo Curso
+    }]
 });
 
-// Asegura que el modelo se exporte correctamente
 module.exports = mongoose.model('Usuario', usuarioSchema);

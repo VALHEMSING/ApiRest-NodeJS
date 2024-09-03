@@ -1,22 +1,36 @@
 
 const express = require('express');
-const {listarCursos, crearCurso, actualizarCurso, eliminarCurso } = require('../controllers/cursosController');
-
-
+const {listarCursos,
+    crearCurso,actualizarCurso,
+    desactivarCurso, 
+    obtenerCurso, 
+    obtenerUsuariosDeCurso,
+    agregarUsuariosController
+} = require('../controllers/cursosController');
+//{listarCursos,crearCurso,actualizarCurso,desactivarCurso, obtenerCurso, obtenerUsuariosDeCurso}
 const ruta = express.Router();
 
-
-//Obtener los cursos
+// Obtener todos los cursos activos
 ruta.get('/', listarCursos);
 
-//Crear un curso
+// Crear un nuevo curso
 ruta.post('/', crearCurso);
 
-//Actualizar el curso
+// Actualizar un curso por ID
 ruta.put('/:id', actualizarCurso);
 
-//Desactivar un curso
-ruta.delete('/:id', eliminarCurso);
+// Desactivar un curso por ID
+ruta.delete('/:id', desactivarCurso);
 
-module.exports= ruta; 
+// Obtener un curso por ID
+ruta.get('/:id', obtenerCurso);
+
+// Obtener usuarios de un curso
+ruta.get('/:id/usuarios', obtenerUsuariosDeCurso);
+
+// Endpoint para agregar usuarios a un curso
+ruta.put('/:id/usuarios', agregarUsuariosController);
+
+module.exports = ruta;
+
 

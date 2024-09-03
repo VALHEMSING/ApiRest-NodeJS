@@ -1,16 +1,35 @@
 const express = require('express');
-
-const {listarUsuariosActivos, crearUsuario, actualizarUsuario, desactivarUsuario } = require('../controllers/usuariosController');
+const {
+    listarUsuariosActivos,
+    listarTodosLosUsuarios,
+    crearUsuario,
+    actualizarUsuario,
+    desactivarUsuario,
+    obtenerUsuarioPorId,
+    obtenerUsuarioPorEmail
+} = require('../controllers/usuariosController');
 
 const ruta = express.Router();
 
-ruta.get("/", listarUsuariosActivos)
+// Obtener todos los usuarios activos
+ruta.get("/", listarUsuariosActivos);
 
-ruta.post("/", crearUsuario)
+// Obtener todos los usuarios (activos e inactivos)
+ruta.get("/todos", listarTodosLosUsuarios);
 
-ruta.put("/:email",actualizarUsuario )
+// Crear un nuevo usuario
+ruta.post("/", crearUsuario);
 
-ruta.delete("/:email", desactivarUsuario)
+// Actualizar un usuario por email
+ruta.put("/email/:email", actualizarUsuario);
 
+// Desactivar un usuario por email
+ruta.delete("/email/:email", desactivarUsuario);
+
+// Obtener un usuario por ID
+ruta.get("/:id", obtenerUsuarioPorId);
+
+// Obtener un usuario por email
+ruta.get("/email/:email", obtenerUsuarioPorEmail);
 
 module.exports = ruta;

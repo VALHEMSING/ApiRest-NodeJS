@@ -2,65 +2,112 @@ const Usuario = require('../models/usuario_model');
 const usuarioValidationSchema = require('../validations/usuarioValidations');
 
 // Obtener todos los usuarios activos
-const listarUsuariosActivos = async (req, res) => {
+const listarUsuariosActivos = async () => {
     try {
         const usuarios = await Usuario.find({ estado: true });
-        res.json(usuarios);
+        return usuarios;
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        throw new Error(`Error al listar usuarios activos: ${error.message}`);
+    }
+};
+
+// Obtener todos los usuarios (activos e inactivos)
+const listarTodosLosUsuarios = async () => {
+    try {
+        const usuarios = await Usuario.find();
+        return usuarios;
+    } catch (error) {
+        throw new Error(`Error al listar todos los usuarios: ${error.message}`);
     }
 };
 
 // Crear un nuevo usuario
-const crearUsuario = async (req, res) => {
-    const { error } = usuarioValidationSchema.validate(req.body);
-    if (error) return res.status(400).json({ error: error.details[0].message });
+const crearUsuario = async (body) => {
+    const { error } = usuarioValidationSchema.validate(body);
+    if (error) {
+        throw new Error(error.details[0].message);
+    }
 
     try {
-        const usuario = new Usuario(req.body);
+        const usuario = new Usuario(body);
         const nuevoUsuario = await usuario.save();
-        res.status(201).json(nuevoUsuario);
+        return nuevoUsuario;
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        throw new Error(`Error al crear el usuario: ${error.message}`);
     }
 };
 
 // Actualizar un usuario por email
-const actualizarUsuario = async (req, res) => {
-    const { error } = usuarioValidationSchema.validate(req.body);
-    if (error) return res.status(400).json({ error: error.details[0].message });
+const actualizarUsuario = async (email, body) => {
+    const { error } = usuarioValidationSchema.validate(body);
+    if (error) {
+        throw new Error(error.details[0].message);
+    }
 
     try {
         const usuario = await Usuario.findOneAndUpdate(
-            { email: req.params.email },
-            req.body,
+            { email: email },
+            body,
             { new: true, runValidators: true }
         );
-        if (!usuario) return res.status(404).json({ message: 'Usuario no encontrado' });
-        res.json(usuario);
+        if (!usuario) {
+            throw new Error(`Usuario no encontrado`);
+        }
+        return usuario;
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        throw new Error(`Error al actualizar el usuario: ${error.message}`);
     }
 };
 
 // Desactivar un usuario por email
-const desactivarUsuario = async (req, res) => {
+const desactivarUsuario = async (email) => {
     try {
         const usuario = await Usuario.findOneAndUpdate(
-            { email: req.params.email },
+            { email: email },
             { estado: false },
             { new: true }
         );
-        if (!usuario) return res.status(404).json({ message: 'Usuario no encontrado' });
-        res.json({ message: 'Usuario desactivado' });
+        if (!usuario) {
+            throw new Error(`Usuario no encontrado`);
+        }
+        return { message: 'Usuario desactivado' };
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        throw new Error(`Error al desactivar el usuario: ${error.message}`);
     }
 };
 
+// Obtener un usuario por ID
+const obtenerUsuarioPorId = async (id) => {
+    try {
+        const usuario = await Usuario.findById(id);
+        if (!usuario) {
+            throw new Error(`Usuario no encontrado`);
+        }
+        return usuario;
+    } catch (error) {
+        throw new Error(`Error al obtener el usuario: ${error.message}`);
+    }
+};
+
+// Obtener un usuario por email
+const obtenerUsuarioPorEmail = async (email) => {
+    try {
+        const usuario = await Usuario.findOne({ email: email });
+        if (!usuario) {
+            throw new Error(`Usuario no encontrado`);
+        }
+        return usuario;
+    } catch (error) {
+        throw new Error(`Error al obtener el usuario: ${error.message}`);
+    }
+}
 module.exports = {
     listarUsuariosActivos,
+    listarTodosLosUsuarios,
     crearUsuario,
     actualizarUsuario,
-    desactivarUsuario
+    desactivarUsuario,
+    obtenerUsuarioPorId,
+    obtenerUsuarioPorEmail
+   
 };
