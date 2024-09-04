@@ -21,7 +21,7 @@ const cors = require('cors');
 // Almaceno la conexión de la DB
 const CONEXION = process.env.MONGO_CONNECTION_STRING;
 
-console.log(`Escuchando la DB ${CONEXION}`);
+console.log(`\nEscuchando la DB ${CONEXION}\n`);
 
 mongoose.connect(CONEXION)
     .then(() => console.log('Conectado a MongoDB'))
@@ -70,5 +70,5 @@ app.listen(port, () => {
 */
 https.createServer(options,app).listen(port, ()=>{
   console.log(`Servidor HTTPS escuchando en https://localhost:${port}`);
-    console.log(`API REST ejecutandose correctamente  `)
+    console.log(`\nAPI REST ejecutandose correctamente...\n`)
 })
