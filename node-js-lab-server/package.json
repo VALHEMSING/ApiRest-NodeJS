@@ -29,6 +29,8 @@
     "express": "^4.19.2",
     "mongodb": "^6.8.0",
     "mongoose": "^8.5.4",
+    "openssl": "^2.0.0",
+    "openssl-nodejs": "^1.0.5",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   },

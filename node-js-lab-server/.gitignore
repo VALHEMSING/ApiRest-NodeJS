@@ -131,3 +131,13 @@ dist
 
 # Vercel directory
 .vercel
+# Ignorar la carpeta SSL
+
+ssl/
+
+# Ignorar todos los archivos .pem
+
+*.pem
+*.crt
+*.csr
+*.key
