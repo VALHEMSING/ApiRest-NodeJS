@@ -24,7 +24,9 @@ const listarTodosLosUsuarios = async (req, res) => {
 // Crear un nuevo usuario
 const crearUsuario = async (req, res) => {
     const { error } = usuarioValidationSchema.validate(req.body);
-    if (error) return res.status(400).json({ code: 'VALIDATION_ERROR', message: error.details[0].message });
+    if (error) {
+        return res.status(400).json({ code: 'VALIDATION_ERROR', message: error.details[0].message });
+    }
 
     try {
         const nuevoUsuario = await usuarioLogic.crearUsuario(req.body);
@@ -37,13 +39,15 @@ const crearUsuario = async (req, res) => {
 // Actualizar un usuario por email
 const actualizarUsuario = async (req, res) => {
     const { error } = usuarioValidationSchema.validate(req.body);
-    if (error) return res.status(400).json({ code: 'VALIDATION_ERROR', message: error.details[0].message });
+    if (error) {
+        return res.status(400).json({ code: 'VALIDATION_ERROR', message: error.details[0].message });
+    }
 
     try {
         const usuario = await usuarioLogic.actualizarUsuario(req.params.email, req.body);
         res.json(usuario);
     } catch (error) {
-        res.status(400).json({ code: 'UPDATE_ERROR', message: error.message });
+        res.status(404).json({ code: 'UPDATE_ERROR', message: error.message });
     }
 };
 

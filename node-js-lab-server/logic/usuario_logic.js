@@ -4,8 +4,7 @@ const usuarioValidationSchema = require('../validations/usuarioValidations');
 // Obtener todos los usuarios activos
 const listarUsuariosActivos = async () => {
     try {
-        const usuarios = await Usuario.find({ estado: true });
-        return usuarios;
+        return await Usuario.find({ estado: true });
     } catch (error) {
         throw new Error(`Error al listar usuarios activos: ${error.message}`);
     }
@@ -14,8 +13,7 @@ const listarUsuariosActivos = async () => {
 // Obtener todos los usuarios (activos e inactivos)
 const listarTodosLosUsuarios = async () => {
     try {
-        const usuarios = await Usuario.find();
-        return usuarios;
+        return await Usuario.find();
     } catch (error) {
         throw new Error(`Error al listar todos los usuarios: ${error.message}`);
     }
@@ -30,8 +28,7 @@ const crearUsuario = async (body) => {
 
     try {
         const usuario = new Usuario(body);
-        const nuevoUsuario = await usuario.save();
-        return nuevoUsuario;
+        return await usuario.save();
     } catch (error) {
         throw new Error(`Error al crear el usuario: ${error.message}`);
     }
@@ -100,7 +97,8 @@ const obtenerUsuarioPorEmail = async (email) => {
     } catch (error) {
         throw new Error(`Error al obtener el usuario: ${error.message}`);
     }
-}
+};
+
 module.exports = {
     listarUsuariosActivos,
     listarTodosLosUsuarios,
@@ -109,5 +107,4 @@ module.exports = {
     desactivarUsuario,
     obtenerUsuarioPorId,
     obtenerUsuarioPorEmail
-   
 };

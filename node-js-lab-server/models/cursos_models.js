@@ -1,7 +1,3 @@
-
-
-
-
 const mongoose = require('mongoose');
 
 const cursoSchema = new mongoose.Schema({
@@ -14,7 +10,7 @@ const cursoSchema = new mongoose.Schema({
         required: false
     },
     estado: {
-        type: String,
+        type: Boolean, // Cambiado a Boolean para mejor claridad
         default: true
     },
     imagen: {
@@ -31,8 +27,20 @@ const cursoSchema = new mongoose.Schema({
     },
     usuarios: [{ 
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Usuario' }] // Referencia a los usuarios
+        ref: 'Usuario' 
+    }],
+    activo: { // Campo para manejar la activación/desactivación del curso
+        type: Boolean,
+        default: true
+    },
+    fechaCreacion: {
+        type: Date,
+        default: Date.now // Se establece por defecto la fecha actual
+    },
+    fechaActualizacion: {
+        type: Date,
+        default: Date.now // Se actualiza la fecha cada vez que se modifica el documento
+    }
 });
-
 
 module.exports = mongoose.model('Curso', cursoSchema);

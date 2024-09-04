@@ -1,39 +1,67 @@
-
-//Traemos el archivo dotenv
-//require('dotenv').config();
-
+const https = require('https');
+const fs = require('fs');
+const path = require('path');
 const express = require('express');
-//const mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const cors = require('cors');
 
+// Cargar el archivo dotenv para las variables de entorno
+require('dotenv').config();
 
+// Importar las rutas
 const usuarioRouter = require('./routes/usuarioRouter');
 const cursosRouter = require('./routes/cursosRouter');
 
-require('dotenv').config();
-const mongoose = require('mongoose');
+// Importar swagger UI express
+const { swaggerUi, specs } = require('./swagger/swagger');
 
-//Almaceno la conexin de la DB
-const CONEXION = process.env.MONGO_CONNECTION_STRING
+// Almacenar la conexión de la base de datos
+const CONEXION = process.env.MONGO_CONNECTION_STRING;
 
-console.log(`Escuchando la DB ${CONEXION}`)
+console.log(`\nEscuchando la DB ${CONEXION}\n`);
 
-mongoose.connect(CONEXION, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('Conectado a MongoDB'))
-.catch(err => console.error('No se pudo conectar a MongoDB', err));
-;
+// Conectar a la base de datos MongoDB
+mongoose.connect(CONEXION)
+    .then(() => console.log('Conectado a MongoDB'))
+    .catch(err => console.error('No se pudo conectar a MongoDB', err));
 
-
+// Crear la aplicación de Express
 const app = express();
+
+// Configurar CORS de manera avanzada
+const corsOptions = {
+    origin: ['https://localhost:3000', 'https://anotherdomain.com'], // Reemplaza con los dominios permitidos
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos HTTP permitidos
+    allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
+    credentials: true, // Permite el envío de cookies
+    preflightContinue: false, // Si es true, se omite la respuesta del preflight
+    optionsSuccessStatus: 204 // Para ciertos navegadores antiguos
+};
+
+// Habilitar CORS para todas las rutas
+app.use(cors(corsOptions));
+
+// Cargar certificados SSL y clave privada
+const sslOptions = {
+    key: fs.readFileSync(path.join(__dirname, 'ssl', 'server.key')),
+    cert: fs.readFileSync(path.join(__dirname, 'ssl', 'server.crt')),
+};
+
+// Configuraciones de middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/usuarios', usuarioRouter);
-app.use('/cursos', cursosRouter);
+// Configurar ruta de Swagger
+app.use('/swagger_docs', swaggerUi.serve, swaggerUi.setup(specs));
 
+// Definir las rutas principales
+app.use('/api/usuarios', usuarioRouter);
+app.use('/api/cursos', cursosRouter);
+
+// Definir el puerto y arrancar el servidor HTTPS
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Servidor escuchando en http://localhost:${port}`);
+
+https.createServer(sslOptions, app).listen(port, () => {
+    console.log(`Servidor HTTPS escuchando en https://localhost:${port}`);
+    console.log(`\nAPI REST ejecutándose correctamente...\n`);
 });

@@ -1,8 +1,7 @@
-
 const Curso = require('../models/cursos_models');
 const cursoLogic = require('../logic/cursos_logic');
 
-// Listar todos los cursos
+// Listar todos los cursos activos
 const listarCursos = async (req, res) => {
     try {
         const cursos = await cursoLogic.listarCursosActivos();
@@ -22,14 +21,16 @@ const crearCurso = async (req, res) => {
     }
 };
 
-
 // Actualizar un curso por ID
 const actualizarCurso = async (req, res) => {
     try {
-        const cursoActualizado = await cursoLogic.actualizarCurso(req.params.id, req.body); // Llama a la lógica de actualización
-        res.json(cursoActualizado); // Retornar el curso actualizado
+        const cursoActualizado = await cursoLogic.actualizarCurso(req.params.id, req.body);
+        if (!cursoActualizado) {
+            return res.status(404).json({ code: 'NOT_FOUND', message: 'Curso no encontrado' });
+        }
+        res.json(cursoActualizado);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        res.status(400).json({ code: 'UPDATE_ERROR', message: error.message });
     }
 };
 
@@ -37,6 +38,9 @@ const actualizarCurso = async (req, res) => {
 const desactivarCurso = async (req, res) => {
     try {
         const curso = await cursoLogic.desactivarCurso(req.params.id);
+        if (!curso) {
+            return res.status(404).json({ code: 'NOT_FOUND', message: 'Curso no encontrado' });
+        }
         res.json(curso);
     } catch (error) {
         res.status(400).json({ code: 'DEACTIVATION_ERROR', message: error.message });
@@ -47,6 +51,9 @@ const desactivarCurso = async (req, res) => {
 const obtenerCurso = async (req, res) => {
     try {
         const curso = await cursoLogic.obtenerCursoId(req.params.id);
+        if (!curso) {
+            return res.status(404).json({ code: 'NOT_FOUND', message: 'Curso no encontrado' });
+        }
         res.json(curso);
     } catch (error) {
         res.status(404).json({ code: 'NOT_FOUND', message: error.message });
@@ -57,25 +64,35 @@ const obtenerCurso = async (req, res) => {
 const obtenerUsuariosDeCurso = async (req, res) => {
     try {
         const usuarios = await cursoLogic.obtenerUsuariosPorCurso(req.params.id);
+        if (!usuarios || usuarios.length === 0) {
+            return res.status(404).json({ code: 'NOT_FOUND', message: 'No se encontraron usuarios para este curso' });
+        }
         res.json(usuarios);
     } catch (error) {
         res.status(404).json({ code: 'NOT_FOUND', message: error.message });
     }
 };
 
-
-
+// Agregar usuarios a un curso
 const agregarUsuariosController = async (req, res) => {
     try {
-        const { id } = req.params; // Obtener el ID del curso de los parámetros de la ruta
-        const { usuariosIds } = req.body; // Obtener los IDs de los usuarios del cuerpo de la solicitud
+        const { id } = req.params;
+        const { usuariosIds } = req.body;
+
+        if (!Array.isArray(usuariosIds) || usuariosIds.length === 0) {
+            return res.status(400).json({ code: 'VALIDATION_ERROR', message: 'Se deben proporcionar al menos un ID de usuario.' });
+        }
 
         const cursoActualizado = await cursoLogic.agregarUsuariosACurso(id, usuariosIds);
-        res.json(cursoActualizado); // Retornar el curso actualizado
+        if (!cursoActualizado) {
+            return res.status(404).json({ code: 'NOT_FOUND', message: 'Curso no encontrado' });
+        }
+        res.json(cursoActualizado);
     } catch (error) {
-        res.status(400).json({ message: error.message }); // Manejar errores
+        res.status(400).json({ code: 'UPDATE_ERROR', message: error.message });
     }
 };
+
 module.exports = {
     listarCursos,
     crearCurso,
