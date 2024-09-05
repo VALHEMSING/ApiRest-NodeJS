@@ -581,4 +581,5 @@ ruta.get('/:id/usuarios', obtenerUsuariosDeCurso)
  */
 ruta.put('/:id/usuarios', agregarUsuariosController);
 
+
 module.exports = ruta;

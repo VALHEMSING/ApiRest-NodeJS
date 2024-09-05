@@ -72,7 +72,6 @@ const obtenerUsuariosDeCurso = async (req, res) => {
         res.status(404).json({ code: 'NOT_FOUND', message: error.message });
     }
 };
-
 // Agregar usuarios a un curso
 const agregarUsuariosController = async (req, res) => {
     try {
@@ -92,6 +91,7 @@ const agregarUsuariosController = async (req, res) => {
         res.status(400).json({ code: 'UPDATE_ERROR', message: error.message });
     }
 };
+
 
 module.exports = {
     listarCursos,

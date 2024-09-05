@@ -4,7 +4,8 @@ const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-
+//Importar la semilla
+const seedDatabase = require ('./seed/seeds') 
 // Cargar el archivo dotenv para las variables de entorno
 require('dotenv').config();
 
@@ -22,7 +23,13 @@ console.log(`\nEscuchando la DB ${CONEXION}\n`);
 
 // Conectar a la base de datos MongoDB
 mongoose.connect(CONEXION)
-    .then(() => console.log('Conectado a MongoDB'))
+    .then(() => {
+        console.log('Conectado a MongoDB')
+        console.log('\nAgregando semilla de DB\n')
+        //Invocamos las semillas
+        seedDatabase();
+        
+    })
     .catch(err => console.error('No se pudo conectar a MongoDB', err));
 
 // Crear la aplicación de Express
