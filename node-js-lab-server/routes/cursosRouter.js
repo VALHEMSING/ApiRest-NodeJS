@@ -1,9 +1,9 @@
 const express = require('express');
 const {
     listarCursos,
-    crearCurso,actualizarCurso,
-    desactivarCurso, 
-    obtenerCurso, 
+    crearCurso, actualizarCurso,
+    desactivarCurso,
+    obtenerCurso,
     obtenerUsuariosDeCurso,
     agregarUsuariosController
 } = require('../controllers/cursosController');

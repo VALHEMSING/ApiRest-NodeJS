@@ -5,7 +5,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 //Importar la semilla
-const seedDatabase = require ('./seed/seeds') 
+const seedDatabase = require('./seed/seeds')
 // Cargar el archivo dotenv para las variables de entorno
 require('dotenv').config();
 
@@ -28,7 +28,7 @@ mongoose.connect(CONEXION)
         console.log('\nAgregando semilla de DB\n')
         //Invocamos las semillas
         seedDatabase();
-        
+
     })
     .catch(err => console.error('No se pudo conectar a MongoDB', err));
 
@@ -37,7 +37,7 @@ const app = express();
 
 // Configurar CORS de manera avanzada
 const corsOptions = {
-    origin: ['https://localhost:3000', 'https://anotherdomain.com'], // Reemplaza con los dominios permitidos
+    origin: "*", // Reemplaza con los dominios permitidos //(http://localhost:5173/) //(https://localhost:3000)
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos HTTP permitidos
     allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
     credentials: true, // Permite el envío de cookies
