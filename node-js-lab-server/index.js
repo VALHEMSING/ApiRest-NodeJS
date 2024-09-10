@@ -17,7 +17,7 @@ const cursosRouter = require('./routes/cursosRouter');
 const { swaggerUi, specs } = require('./swagger/swagger');
 
 // Almacenar la conexión de la base de datos
-const CONEXION = process.env.MONGO_CONNECTION_STRING;
+const CONEXION = process.env.MONGO_CONECCTION;
 
 console.log(`\nEscuchando la DB ${CONEXION}\n`);
 
