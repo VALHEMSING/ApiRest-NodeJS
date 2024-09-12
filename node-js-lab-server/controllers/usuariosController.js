@@ -81,6 +81,28 @@ const obtenerUsuarioPorEmail = async (req, res) => {
     }
 };
 
+// Controlador para actualizar los cursos de un usuario
+const actualizarCursosDeUsuario = async (req, res) => {
+    const { email } = req.params; // Asegúrate de que `email` venga en los parámetros
+    const { cursosIds } = req.body; // Captura los IDs de los cursos del cuerpo de la solicitud
+
+    // Validación: Asegurarse de que se haya proporcionado un array de IDs de cursos
+    if (!Array.isArray(cursosIds) || cursosIds.length === 0) {
+        return res.status(400).json({ code: 'VALIDATION_ERROR', message: 'Se debe proporcionar un array de IDs de cursos.' });
+    }
+
+    try {
+        // Llamar a la capa lógica para actualizar los cursos del usuario
+        const usuarioActualizado = await usuarioLogic.actualizarCursosDeUsuario(email, cursosIds);
+
+        // Respuesta exitosa
+        res.json({ message: "Cursos actualizados correctamente", usuario: usuarioActualizado });
+    } catch (error) {
+        // Manejo de errores
+        res.status(500).json({ code: 'UPDATE_ERROR', message: error.message || 'Error al actualizar los cursos del usuario' });
+    }
+};
+
 module.exports = {
     listarUsuariosActivos,
     listarTodosLosUsuarios,
@@ -88,5 +110,6 @@ module.exports = {
     actualizarUsuario,
     desactivarUsuario,
     obtenerUsuarioPorId,
-    obtenerUsuarioPorEmail
+    obtenerUsuarioPorEmail,
+    actualizarCursosDeUsuario
 };

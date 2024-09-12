@@ -99,6 +99,35 @@ const obtenerUsuarioPorEmail = async (email) => {
     }
 };
 
+// Función asíncrona para actualizar los cursos asociados a un usuario
+const actualizarCursosDeUsuario = async (usuarioId, cursosIds) => {
+    try {
+        // Validar que se haya proporcionado un array de cursos
+        if (!Array.isArray(cursosIds) || cursosIds.length === 0) {
+            throw new Error('Se debe proporcionar al menos un ID de curso.');
+        }
+
+        // Buscar al usuario por ID
+        const usuario = await Usuario.findById(usuarioId);
+        if (!usuario) {
+            throw new Error('Usuario no encontrado');
+        }
+
+        // Actualizar los cursos del usuario, asegurando que no haya duplicados
+        usuario.cursos = [...new Set(cursosIds)]; // Se utiliza Set para evitar duplicados
+
+        // Guardar el usuario actualizado en la base de datos
+        await usuario.save();
+
+        return usuario; // Retorna el usuario actualizado
+    } catch (error) {
+        throw new Error(`Error al actualizar los cursos del usuario: ${error.message}`);
+    }
+};
+
+
+
+
 module.exports = {
     listarUsuariosActivos,
     listarTodosLosUsuarios,
@@ -106,5 +135,6 @@ module.exports = {
     actualizarUsuario,
     desactivarUsuario,
     obtenerUsuarioPorId,
-    obtenerUsuarioPorEmail
+    obtenerUsuarioPorEmail,
+    actualizarCursosDeUsuario
 };

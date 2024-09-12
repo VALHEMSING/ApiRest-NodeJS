@@ -37,7 +37,7 @@ const app = express();
 
 // Configurar CORS de manera avanzada
 const corsOptions = {
-    origin: ['https://localhost:3000', 'https://anotherdomain.com'], // Reemplaza con los dominios permitidos
+    origin: '*', // Reemplaza con los dominios permitidos
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos HTTP permitidos
     allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
     credentials: true, // Permite el envío de cookies

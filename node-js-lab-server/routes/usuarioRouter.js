@@ -6,7 +6,8 @@ const {
     actualizarUsuario,
     desactivarUsuario,
     obtenerUsuarioPorId,
-    obtenerUsuarioPorEmail
+    obtenerUsuarioPorEmail,
+    actualizarCursosDeUsuario
 } = require('../controllers/usuariosController');
 
 
@@ -148,7 +149,7 @@ ruta.post("/", crearUsuario);
  *             schema:
  *               type: object
  */
-ruta.put("/email/:email", actualizarUsuario);
+ruta.put("/usuarios/email/:email'", actualizarUsuario);
 
 /**
  * @swagger
@@ -218,5 +219,90 @@ ruta.get("/:id", obtenerUsuarioPorId);
  *               type: object
  */
 ruta.get("/email/:email", obtenerUsuarioPorEmail);
+
+
+// Actualización de cursos de un usuario basado en su email
+
+/**
+ * @swagger
+ * /usuarios/{email}/cursos:
+ *   put:
+ *     summary: Actualizar los cursos de un usuario
+ *     description: Actualiza los cursos asignados a un usuario usando su email como identificador.
+ *     tags:
+ *       - Usuarios
+ *     parameters:
+ *       - in: path
+ *         name: email
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: El email del usuario que deseas actualizar
+ *       - in: body
+ *         name: cursosIds
+ *         description: Array de IDs de los cursos que se asignarán al usuario
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             cursosIds:
+ *               type: array
+ *               items:
+ *                 type: string
+ *                 example: "66d8d8aafbfa8375ce2cf1f1"
+ *               description: IDs de los cursos a agregar
+ *     responses:
+ *       200:
+ *         description: Cursos actualizados correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Cursos actualizados correctamente
+ *                 usuario:
+ *                   $ref: "#/definitions/Usuario"
+ *       400:
+ *         description: Error de validación
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: VALIDATION_ERROR
+ *                 message:
+ *                   type: string
+ *                   example: Se debe proporcionar un array de IDs de cursos.
+ *       404:
+ *         description: Usuario no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: NOT_FOUND
+ *                 message:
+ *                   type: string
+ *                   example: Usuario no encontrado
+ *       500:
+ *         description: Error del servidor al actualizar los cursos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Error al actualizar los cursos del usuario
+ */
+
+ruta.put('/email/:email/cursos', actualizarCursosDeUsuario);
+
 
 module.exports = ruta;
