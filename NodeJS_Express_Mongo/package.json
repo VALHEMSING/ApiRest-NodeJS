@@ -1,0 +1,39 @@
+{
+    "name": "node-js-lab-server",
+    "version": "1.0.0",
+    "description": "Servidor Web con Node js",
+    "main": "index.js",
+    "scripts": {
+      "start": "node index.js",
+      "dev": "nodemon index.js",
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "(https://github.com/andresfpinzon/NodeJS_Express_Mongo_.git)"
+    },
+    "keywords": [
+      "NodeJS",
+      "Express",
+      "MongoDB",
+      "API",
+      "REST",
+      "Backend"
+    ],
+    "author": "Andres Felipe Pinzon Parra",
+    "license": "ISC",
+    "dependencies": {
+      "@hapi/joi": "^17.1.1",
+      "cors": "^2.8.5",
+      "dotenv": "^16.4.5",
+      "express": "^4.19.2",
+      "joi": "^17.13.3",
+      "mongodb": "^6.8.0",
+      "mongoose": "^8.5.4",
+      "swagger-jsdoc": "^6.2.8",
+      "swagger-ui-express": "^5.0.1"
+    },
+    "devDependencies": {
+      "nodemon": "^3.1.4"
+    }
+  }
