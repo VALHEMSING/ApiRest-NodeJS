@@ -6,7 +6,7 @@ const cursoSchemaValidation = Joi.object({
         .min(5)
         .max(100)
         .required()
-        .pattern(/^[A-Za-záéíóúÁÉÍÓÚñÑ0-9 .,;:'"!?()#@&$%*+-/=\[\]{}|<>^~`]+$/)
+        .allow('')
         .messages({
             'string.empty': 'El título no puede estar vacío.',
             'string.min': 'El título debe tener al menos 5 caracteres.',
@@ -19,7 +19,7 @@ const cursoSchemaValidation = Joi.object({
         .min(10)
         .max(500)
         .optional()
-        .pattern(/^[A-Za-záéíóúÁÉÍÓÚñÑ0-9 .,;:'"!?()#@&$%*+-/=\[\]{}|<>^~`]*$/)
+        .allow('')
         .messages({
             'string.min': 'La descripción debe tener al menos 10 caracteres.',
             'string.max': 'La descripción no puede exceder los 500 caracteres.',

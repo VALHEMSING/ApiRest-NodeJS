@@ -129,7 +129,7 @@ const Home = () => {
   };
 
   return (
-    <Container>
+    <Container sx={{zIndex:19}}  >
       <Typography variant="h4" gutterBottom>
         Cursos Disponibles
       </Typography>
